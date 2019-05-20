@@ -1,0 +1,29 @@
+{
+	"broker": {
+		"Broker_IP": "172.20.10.3",
+		"Broker_port": "1883"
+    },
+	"telegram": {
+		"Port": "371024597:AAGK5je2cAXhyf4oMMD5wcUj1SguoZC5ZOY",
+		"chatID": "94432957"
+	},
+    "topic": {
+		"wildcards": "Sector1/Room1/Paitent1/#"
+	},
+    "thingspeak": {
+		"ThingSpeak_url": "mqtt.thingspeak.com",
+        "ThingSpeak_Api_key": "0E31I2SJ6SD6N44A",
+        "ThingSpeak_Connection_Type": "websockets",
+        "ThingSpeak_Port": 80
+	},
+	"paitent1": {
+		"Topics": {
+			"Spo2": "Sector1/Room1/Paitent1/Spo2",
+			"ECG": "Sector1/Room1/Paitent1/ECG"
+		},
+        "ThingSpeak": {
+		    "ThingSpeak_channelID": "779308"
+	    },
+		"id": 1
+	}
+}
