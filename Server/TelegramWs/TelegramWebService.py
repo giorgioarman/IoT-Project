@@ -4,8 +4,10 @@ from TelegramClass import TelegramClass
 
 
 class TelegramWebService(object):
-    def __init__(self, teleToken):
+    def __init__(self, teleToken, developerChatId, hospitalChatId):
         self.teleClass = TelegramClass(teleToken)
+        self.developerChatId = developerChatId
+        self.hospitalChatId = hospitalChatId
         self.isConnected = self.teleClass.connectToTelegram()
 
 
@@ -20,13 +22,18 @@ class TelegramWebService(object):
                 if RequestCommand == "sendmessage":
                     if len(params) < 2:
                         return "you have not entered right parameters, use like this command:  \n" + \
-                               " localhost:8091\\sendmessage?chatid=123466&msg=test"
+                               " localhost:8091\\sendmessage?group=hospital&msg=test"
                     else:
                         chatid = ""
                         msg = ""
                         for item in params:
-                            if item.lower() == "chatid":
-                                chatid = params[item]
+                            if item.lower() == "group":
+                                if params[item].lower() == "hospital":
+                                    chatid = self.hospitalChatId
+                                elif params[item].lower() == "developer":
+                                    chatid = self.developerChatId
+                                else:
+                                    return "The group is NOT valid."
                             elif item.lower() == "msg":
                                 msg = params[item]
 
@@ -56,6 +63,8 @@ if '__main__' == __name__:
     WsIp = TelegramConfig["TelegramInfo"]["ip"]
     WsPort = TelegramConfig["TelegramInfo"]["port"]
     telegramToken = TelegramConfig["TelegramInfo"]["token"]
+    developerChatId = TelegramConfig["TelegramInfo"]["developerChatId"]
+    hostpitalChatId = TelegramConfig["TelegramInfo"]["hostpitalChatId"]
     # tClass = TelegramWebService(telegramToken)
     # tClass.connectToTelegram()
 
@@ -66,7 +75,7 @@ if '__main__' == __name__:
         }
     }
 
-    cherrypy.tree.mount(TelegramWebService(telegramToken), '/', confCherry)
+    cherrypy.tree.mount(TelegramWebService(telegramToken, developerChatId, hostpitalChatId), '/', confCherry)
     cherrypy.config.update({
         "server.socket_host": str(WsIp),
         "server.socket_port": int(WsPort),

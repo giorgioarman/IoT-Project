@@ -62,7 +62,6 @@ if __name__ == '__main__':
             RcURL = str(RcURL) + "/"
         paitentID = conf["ResourseCatalogInfo"]["PaitentID"]
 
-
     client = mqtt.Client('ECG')
     pubClass = PublishEcgData(client, RcURL, paitentID)
 

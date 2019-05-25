@@ -59,11 +59,11 @@ class SubscribeData(object):
             self.insertData()
 
         if self.EcgDataCounter > 3:
-            print("SubscribeData: ******------ In last 30 seconds, ARRIVES ANY data from ECG sensor -------****** "
+            print("SubscribeData: ******------ In last 30 seconds, ARRIVES No data from ECG sensor -------****** "
                   + " at time : " + str(current_time))
 
         if self.iHealthDataCounter > 3:
-            print("SubscribeData: ******------ In last 30 seconds, ARRIVES ANY data from iHealth sensor ------****** " +
+            print("SubscribeData: ******------ In last 30 seconds, ARRIVES NO data from iHealth sensor ------****** " +
                   " at time : " + str(
                     current_time))
         return 'ok'
@@ -80,12 +80,13 @@ class SubscribeData(object):
                 localData = json.loads(tmpLocalData)
             localDataJson = localData[ecgMsg['patientID']]
             new_data = json.dumps({"HRwithIhealth": iHealthMsg['HR'],
-                                        "BOwithIhealth": iHealthMsg['BO'],
-                                        "iHealthMeasureTime": iHealthMsg['measurement_time'],
-                                        "HRwithECG": ecgMsg['HR'],
-                                        "EchMeasureTime": ecgMsg['measurement_time'],
-                                        "DateInsert": current_time,
-                                        "ThingSpeak": 0})
+                                   "BOwithIhealth": iHealthMsg['BO'],
+                                   "iHealthMeasureTime": iHealthMsg['measurement_time'],
+                                   "HRwithECG": ecgMsg['HR'],
+                                   "EcgMeasureTime": ecgMsg['measurement_time'],
+                                   "DateInsert": current_time,
+                                   "ThingSpeak": 0,
+                                   "ReadDataCount": 0})
             new_data_json = json.loads(new_data)
             if len(localDataJson) < 11:
                 localDataJson.append(new_data_json)

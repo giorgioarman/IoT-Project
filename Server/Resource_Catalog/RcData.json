@@ -4,11 +4,10 @@
 		"Broker_port": "1883"
     },
 	"telegram": {
-		"Port": "371024597:AAGK5je2cAXhyf4oMMD5wcUj1SguoZC5ZOY",
-		"chatID": "94432957"
+		"sendMessageUrl": "http://172.20.10.6:8091/sendmessage"
 	},
     "topic": {
-		"wildcards": "Sector1/Room1/Paitent1/#"
+		"wildcards": "Sector1/Room1/#"
 	},
     "thingspeak": {
 		"ThingSpeak_url": "mqtt.thingspeak.com",
