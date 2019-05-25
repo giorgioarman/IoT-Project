@@ -7,11 +7,12 @@ from iHealthClass import iHealth
 
 
 class PublishSpo2Data(object):
-    def __init__(self, spo2Class, client, rcURL, paitentID):
+    def __init__(self, spo2Class, client, rcURL, paitentID, telegramUrl):
         self.spo2Class = spo2Class
         self.client = client
         self.rcURL = rcURL
         self.paitentID = paitentID
+        self.telegramUrl = telegramUrl
 
     @staticmethod
     def on_connect(client, userdata, flags, rc):
@@ -57,43 +58,63 @@ class PublishSpo2Data(object):
         except:
             print "PublishSpo2: There is am error with connecting to Resource Catalog"
 
+    def sendMsg(self, group, msg):
+        try:
+            url = self.telegramUrl + "?group=" + group + "&msg=" + msg
+            ok = requests.get(url)
+            return ok.text
+        except Exception:
+            print "There is an error for sending msg"
+
 
 if __name__ == '__main__':
-    with open("RcConfig.json", "r") as f:
-        tmpConf = f.read()
-        conf = json.loads(tmpConf)
-        RcURL = conf["ResourseCatalogInfo"]["url"]
-        if not str(RcURL).endswith('/'):
-            RcURL = str(RcURL) + "/"
-        paitentID = conf["ResourseCatalogInfo"]["PaitentID"]
-
-    try:
-        Spo2Class = iHealth()
-    except:
-        print "PublishSpo2: ERROR IN GETTING DATA FROM iHealth"
-
-    client = mqtt.Client('SPO2')
-    pubClass = PublishSpo2Data(Spo2Class, client, RcURL, paitentID)
-
     while True:
         try:
-            tmpBroker = requests.get(RcURL + "broker")
-            brokerData = json.loads(tmpBroker.text)
-        except:
-            print "PublishSpo2: There is am error with connecting to Resource Catalog"
+            with open("RcConfig.json", "r") as f:
+                tmpConf = f.read()
+                conf = json.loads(tmpConf)
+                RcURL = conf["ResourseCatalogInfo"]["url"]
+                if not str(RcURL).endswith('/'):
+                    RcURL = str(RcURL) + "/"
+                paitentID = conf["ResourseCatalogInfo"]["PaitentID"]
+                telegramUrl = conf["telegram"]["sendMessageUrl"]
+            while True:
+                try:
+                    Spo2Class = iHealth()
+                    client = mqtt.Client('SPO2')
+                    pubClass = PublishSpo2Data(Spo2Class, client, RcURL, paitentID, telegramUrl)
+                    while True:
+                        try:
+                            tmpBroker = requests.get(RcURL + "broker")
+                            brokerData = json.loads(tmpBroker.text)
+                            pubClass.get_topic()
 
-        pubClass.get_topic()
+                            broker_ip = brokerData["Broker_IP"]
+                            broker_port = brokerData["Broker_port"]
 
-        broker_ip = brokerData["Broker_IP"]
-        broker_port = brokerData["Broker_port"]
-
-        try:
-            client.on_connect = PublishSpo2Data.on_connect
-            client.on_publish = PublishSpo2Data.on_publish
-            ok = client.connect(broker_ip, int(broker_port))
-            client.loop_start()
-        except:
-            print "PublishSpo2: ERROR IN CONNECTING TO THE BROKER"
-        while True:
-            pubClass.publish_Spo2_data()
-            time.sleep(10)
+                            try:
+                                client.on_connect = PublishSpo2Data.on_connect
+                                client.on_publish = PublishSpo2Data.on_publish
+                                ok = client.connect(broker_ip, int(broker_port))
+                                client.loop_start()
+                                while True:
+                                    pubClass.publish_Spo2_data()
+                                    time.sleep(10)
+                            except Exception:
+                                msgBody = "PublishSpo2: ERROR IN CONNECTING TO THE BROKER"
+                                print msgBody
+                                pubClass.sendMsg("developer", msgBody)
+                        except Exception:
+                            msgBody = "PublishSpo2: There is an error with connecting to Resource Catalog"
+                            print msgBody
+                            pubClass.sendMsg("developer", msgBody)
+                        time.sleep(5)
+                except Exception:
+                    msgBody = "PublishSpo2: ERROR IN GETTING DATA FROM iHealth"
+                    print msgBody
+                    pubClass.sendMsg("developer", msgBody)
+                time.sleep(5)
+        except Exception:
+            msgBody = "PublishSpo2: ERROR IN OPENING RcConfig.Json File"
+            print msgBody
+        time.sleep(5)

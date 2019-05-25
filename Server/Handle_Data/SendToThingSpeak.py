@@ -18,7 +18,6 @@ class ThingSpeak(object):
         self.topic = ""
         self.RcURL = ""
 
-
     def loadTsConfig(self):
         with open("RcConfig.json", "r") as f:
             tmpConf = f.read()

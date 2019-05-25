@@ -3,7 +3,6 @@ import time
 import paho.mqtt.client as mqtt
 import json
 import requests
-from SendToThingSpeak import ThingSpeak
 
 
 class SubscribeData(object):
@@ -59,13 +58,16 @@ class SubscribeData(object):
             self.insertData()
 
         if self.EcgDataCounter > 3:
-            print("SubscribeData: ******------ In last 30 seconds, ARRIVES No data from ECG sensor -------****** "
-                  + " at time : " + str(current_time))
+            msgBody = ("SubscribeData: *****----- In last 30 seconds, ARRIVES No data from ECG sensor ------***** " +
+                       " at time : " + str(current_time))
+            print msgBody
+            teleWs.sendMsg("hospital", msgBody)
 
         if self.iHealthDataCounter > 3:
-            print("SubscribeData: ******------ In last 30 seconds, ARRIVES NO data from iHealth sensor ------****** " +
-                  " at time : " + str(
-                    current_time))
+            msgBody = ("SubscribeData: *****----- In last 30 seconds, ARRIVES NO data from iHealth sensor -----***** " +
+                       " at time : " + str(current_time))
+            print msgBody
+            teleWs.sendMsg("hospital", msgBody)
         return 'ok'
 
     @classmethod
@@ -107,47 +109,62 @@ class SubscribeData(object):
             print("SubscribeData: (Error in inserted to Local File)" + str(current_time))
 
 
-if '__main__' == __name__:
+class TelegramWS(object):
 
+    def __init__(self, telegramUrl):
+        self.telegramUrl = telegramUrl
+
+    def sendMsg(self, group, msg):
+        url = self.telegramUrl + "?group=" + group + "&msg=" + msg
+        ok = requests.get(url)
+        return ok.text
+
+
+if '__main__' == __name__:
     with open("RcConfig.json", "r") as f:
         tmpConf = f.read()
         conf = json.loads(tmpConf)
         RcURL = conf["ResourseCatalogInfo"]["url"]
+        telegramUrl = conf["telegram"]["sendMessageUrl"]
         if not str(RcURL).endswith('/'):
             RcURL = str(RcURL) + "/"
 
     client = mqtt.Client()
+    teleWs = TelegramWS(telegramUrl)
     SubClass = SubscribeData(client, RcURL)
 
     while True:
         try:
             tmpBroker = requests.get(RcURL + "broker")
             brokerData = json.loads(tmpBroker.text)
-        except:
-            print "SubscribeData: There is am error with connecting to Resource Catalog"
-
-        broker_ip = brokerData["Broker_IP"]
-        broker_port = brokerData["Broker_port"]
-
-        try:
-            tmpTopics = requests.get(RcURL + "topic")
-            topics = json.loads(tmpTopics.text)
-        except:
-            print "SubscribeData: There is am error with connecting to Resource Catalog"
-
-        topic = topics["wildcards"]
-
-        try:
-            client.on_connect = SubClass.on_connect
-            client.on_subscribe = SubClass.on_subscribe
-            client.on_message = SubClass.on_message
-            ok = client.connect(broker_ip, int(broker_port))
-            client.subscribe(str(topic), qos=1)
-            client.loop_forever()
-        except:
-            print "PublishSpo2: ERROR IN CONNECTING TO THE BROKER"
-        while True:
-            # pubClass.publish_Spo2_data()
-            time.sleep(1)
-
-
+            broker_ip = brokerData["Broker_IP"]
+            broker_port = brokerData["Broker_port"]
+            while True:
+                try:
+                    tmpTopics = requests.get(RcURL + "topic")
+                    topics = json.loads(tmpTopics.text)
+                    topic = topics["wildcards"]
+                    while True:
+                        try:
+                            client.on_connect = SubClass.on_connect
+                            client.on_subscribe = SubClass.on_subscribe
+                            client.on_message = SubClass.on_message
+                            ok = client.connect(broker_ip, int(broker_port))
+                            client.subscribe(str(topic), qos=1)
+                            client.loop_forever()
+                            while True:
+                                time.sleep(1)
+                        except Exception:
+                            msgBody = "SubscribeData: ERROR IN CONNECTING TO THE BROKER"
+                            teleWs.sendMsg("hospital", msgBody)
+                            print msgBody
+                        time.sleep(5)
+                except Exception:
+                    msgBody = "SubscribeData: There is an error with connecting to Resource Catalog to get topics"
+                    teleWs.sendMsg("hospital", msgBody)
+                    print msgBody
+                time.sleep(5)
+        except Exception:
+            msgBody = "SubscribeData: There is an error with connecting to Resource Catalog to get broker Data"
+            teleWs.sendMsg("hospital", msgBody)
+            print msgBody

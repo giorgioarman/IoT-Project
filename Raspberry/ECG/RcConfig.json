@@ -2,5 +2,8 @@
 	"ResourseCatalogInfo": {
 		"url": "http://172.20.10.5:8090/",
 		"PaitentID":"paitent1"
+	},
+	"telegram": {
+		"sendMessageUrl": "http://172.20.10.5:8091/sendmessage"
 	}
 }

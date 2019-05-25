@@ -28,7 +28,6 @@ class DataAnalysis(object):
         ok = requests.get(url)
         return ok.text
 
-
     def analyzeData(self):
         ds.loadData()
         allData = self.localData
@@ -43,6 +42,12 @@ class DataAnalysis(object):
                     # check there is a new data in local file or not
                     if int(item["ReadDataCount"]) == self.rowNumberOfDataToCheck:
                         print "there is no new data"
+                        break
+                    if int(item["ReadDataCount"]) == 0:
+                        item["ReadDataCount"] = 3
+                        lastData[1]["ReadDataCount"] = 2
+                        lastData[2]["ReadDataCount"] = 1
+                        break
                     else:
                         HRwithIhealth = item["HRwithIhealth"]
                         BOwithIhealth = item["BOwithIhealth"]
@@ -52,19 +57,19 @@ class DataAnalysis(object):
                         if abs(HRwithECG - HRwithIhealth) > 10:
                             print "data from iHealth sensor and ECG are not the same"
                         else:
+                            # ********________--------
                             # check data with treshold
+                            # --------________********
                             if HRwithECG < 54 or HRwithECG > 78:
                                 if BOwithIhealth < 80:
                                     warniningCount += 1
 
                         item["ReadDataCount"] = int(item["ReadDataCount"]) + 1
-                        print item
+                        print warniningCount
 
-                msg = "%s sta male , andate subito a controllare" % str(patient)
-                result = self.sendMsg("developer", msg)
                 if warniningCount > 1:
                     msg = "%s sta male , andate subito a controllare" % str(patient)
-                    result = self.sendMsg("developer", msg)
+                    result = self.sendMsg("hospital", msg)
                     print msg
 
             with open('localData.json', 'w') as outfile:
@@ -76,17 +81,7 @@ if '__main__' == __name__:
     with open("RcConfig.json", "r") as f:
         tmpConf = f.read()
         conf = json.loads(tmpConf)
-        RcURL = conf["ResourseCatalogInfo"]["url"]
-        if not str(RcURL).endswith('/'):
-            RcURL = str(RcURL) + "/"
-
-    try:
-        tmpTelegram = requests.get(RcURL + "telegram")
-        telegramData = json.loads(tmpTelegram.text)
-    except:
-        print "DataAnalysis: There is am error with connecting to Resource Catalog"
-
-    telegramUrl = telegramData["sendMessageUrl"]
+        telegramUrl = conf["telegram"]["sendMessageUrl"]
 
     ds = DataAnalysis(telegramUrl)
 
