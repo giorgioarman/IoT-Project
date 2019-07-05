@@ -90,7 +90,7 @@ class SubscribeData(object):
                                    "ThingSpeak": 0,
                                    "ReadDataCount": 0})
             new_data_json = json.loads(new_data)
-            if len(localDataJson) < 11:
+            if len(localDataJson) < 16:
                 localDataJson.append(new_data_json)
             else:
                 localDataJson.pop(0)
@@ -110,7 +110,6 @@ class SubscribeData(object):
 
 
 class TelegramWS(object):
-
     def __init__(self, telegramUrl):
         self.telegramUrl = telegramUrl
 

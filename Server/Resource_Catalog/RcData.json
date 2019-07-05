@@ -1,6 +1,6 @@
 {
 	"broker": {
-		"Broker_IP": "172.20.10.3",
+		"Broker_IP": "172.20.10.2",
 		"Broker_port": "1883"
     },
 	"telegram": {

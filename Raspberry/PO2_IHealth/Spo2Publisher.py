@@ -45,7 +45,7 @@ class PublishSpo2Data(object):
                 print ("PublishSpo2: Message is published.\n")
             msg_info.wait_for_publish()
             return "maybe is ok"
-        except:
+        except Exception:
             get_time = datetime.datetime.now()
             current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
             print ("PublishSpo2: ERROR IN PUBLISHING " + "at time: " + str(current_time))

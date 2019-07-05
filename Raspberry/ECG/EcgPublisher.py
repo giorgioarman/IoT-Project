@@ -3,6 +3,7 @@ import time
 import paho.mqtt.client as mqtt
 import json
 import requests
+import serial
 
 
 class PublishEcgData(object):
@@ -11,6 +12,8 @@ class PublishEcgData(object):
         self.rcURL = rcURL
         self.paitentID = paitentID
         self.telegramUrl = telegramUrl
+        self.mustPublish = False
+        self.lastPublishTime = ''
 
     @staticmethod
     def on_connect(client, userdata, flags, rc):
@@ -26,11 +29,12 @@ class PublishEcgData(object):
         print("PublishECG:(successfully) " + str(userdata) + " at time : " + str(current_time))
         return str(mid)
 
-    def publish_ECG_data(self):
+    def publish_ECG_data(self, HRdata):
         try:
             get_time = datetime.datetime.now()
             current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
-            HR = 90
+            if HRdata:
+                HR = HRdata
             new_data_json = json.dumps({"subject": "ECG", "patientID": self.paitentID,
                                         "HR": HR,
                                         "measurement_time": current_time})
@@ -39,6 +43,8 @@ class PublishEcgData(object):
             if msg_info.is_published() == True:
                 print ("PublishECG: Message is published.\n")
             msg_info.wait_for_publish()
+            self.mustPublish = False
+            self.lastPublishTime = time.time()
             return "maybe is ok"
         except Exception:
             get_time = datetime.datetime.now()
@@ -64,6 +70,15 @@ class PublishEcgData(object):
             return ok.text
         except Exception:
             print "There is an error for sending msg"
+
+    def trigger(self):
+        if not self.lastPublishTime:
+            self.mustPublish = True
+        else:
+            if abs(self.lastPublishTime - time.time()) > 10:
+                self.mustPublish = True
+            else:
+                self.mustPublish = False
 
 
 if __name__ == '__main__':
@@ -92,9 +107,32 @@ if __name__ == '__main__':
                             client.on_publish = PublishEcgData.on_publish
                             ok = client.connect(broker_ip, int(broker_port))
                             client.loop_start()
+
+                            #create an object to Connect Arduino by USB
+                            serialPort = serial.Serial('COM9', 9600, timeout=.1)
+
                             while True:
-                                pubClass.publish_ECG_data()
-                                time.sleep(10)
+                                if (serialPort.in_waiting > 0):
+                                    readLine = serialPort.readline()
+                                    mustSendMsg = 0
+                                    if readLine:
+                                        dataSplitted = readLine.strip().split(" ")
+                                        HRData = dataSplitted[len(dataSplitted) - 1]
+                                        # control HeartBeat each time that collect from SENSOR
+
+                                        if HRData < 45 or HRData > 90:
+                                            mustSendMsg += 1
+                                            if mustSendMsg > 1:
+                                                msg = "%s sta male , andate subito a controllare from (ECG)" % str(
+                                                    paitentID)
+                                                result = pubClass.sendMsg("hospital", msg)
+                                                mustSendMsg = 0
+
+                                        print(HRData)
+                                        pubClass.trigger()
+                                        if pubClass.mustPublish:
+                                            pubClass.publish_ECG_data(HRData)
+
                         except Exception:
                             msgBody = "PublishECG: ERROR IN CONNECTING TO THE BROKER"
                             print msgBody
