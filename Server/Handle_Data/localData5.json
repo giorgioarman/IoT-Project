@@ -1,0 +1,78 @@
+{
+  "patient1": [
+    {
+      "DateInsert": "2019-05-23 19:09:32",
+      "HRwithECG": 70,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:09:22",
+      "iHealthMeasureTime": "2019-05-23 19:09:30",
+      "BOwithIhealth": 96,
+      "HRwithIhealth": 68
+    },
+    {
+      "DateInsert": "2019-05-23 19:09:49",
+      "HRwithECG": 72,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:09:44",
+      "iHealthMeasureTime": "2019-05-23 19:09:45",
+      "BOwithIhealth": 92,
+      "HRwithIhealth": 69
+    },
+    {
+      "DateInsert": "2019-05-23 19:10:00",
+      "HRwithECG": 73,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:09:57",
+      "iHealthMeasureTime": "2019-05-23 19:10:00",
+      "BOwithIhealth": 95,
+      "HRwithIhealth": 75
+    },
+    {
+      "DateInsert": "2019-05-23 19:10:12",
+      "HRwithECG": 73,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:10:07",
+      "iHealthMeasureTime": "2019-05-23 19:10:12",
+      "BOwithIhealth": 90,
+      "HRwithIhealth": 69
+    }
+  ],
+  "patient2": [
+    {
+      "DateInsert": "2019-05-23 19:09:32",
+      "HRwithECG": 70,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:09:22",
+      "iHealthMeasureTime": "2019-05-23 19:09:30",
+      "BOwithIhealth": 96,
+      "HRwithIhealth": 68
+    },
+    {
+      "DateInsert": "2019-05-23 19:09:49",
+      "HRwithECG": 92,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:09:44",
+      "iHealthMeasureTime": "2019-05-23 19:09:45",
+      "BOwithIhealth": 92,
+      "HRwithIhealth": 89
+    },
+    {
+      "DateInsert": "2019-05-23 19:10:00",
+      "HRwithECG": 93,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:09:57",
+      "iHealthMeasureTime": "2019-05-23 19:10:00",
+      "BOwithIhealth": 95,
+      "HRwithIhealth": 95
+    },
+    {
+      "DateInsert": "2019-05-23 19:10:12",
+      "HRwithECG": 73,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-23 19:10:07",
+      "iHealthMeasureTime": "2019-05-23 19:10:12",
+      "BOwithIhealth": 90,
+      "HRwithIhealth": 69
+    }
+  ]
+}
