@@ -10,7 +10,6 @@ class TelegramWebService(object):
         self.hospitalChatId = hospitalChatId
         self.isConnected = self.teleClass.connectToTelegram()
 
-
     exposed = True
 
     def GET(self, *uri, **params):
@@ -48,8 +47,6 @@ class TelegramWebService(object):
                                 return "The msg has been sent"
                             except Exception:
                                 return "There was an error to send msg "
-
-
         else:
             return "The webservice is not connected to Telegram"
 
@@ -65,8 +62,6 @@ if '__main__' == __name__:
     telegramToken = TelegramConfig["TelegramInfo"]["token"]
     developerChatId = TelegramConfig["TelegramInfo"]["developerChatId"]
     hostpitalChatId = TelegramConfig["TelegramInfo"]["hostpitalChatId"]
-    # tClass = TelegramWebService(telegramToken)
-    # tClass.connectToTelegram()
 
     confCherry = {
         '/': {

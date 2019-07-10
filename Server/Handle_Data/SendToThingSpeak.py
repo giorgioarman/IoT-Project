@@ -4,11 +4,10 @@ import time
 
 import requests
 from paho.mqtt import publish
-import paho.mqtt.client as mqtt
 
 
 class ThingSpeak(object):
-    def __init__(self):
+    def __init__(self, rcUrl):
         self.ThingSpeak_url = ""
         self.ThingSpeak_Api_key = ""
         self.ThingSpeak_channelID = ""
@@ -16,15 +15,9 @@ class ThingSpeak(object):
         self.ThingSpeak_Port = 0
 
         self.topic = ""
-        self.RcURL = ""
+        self.RcURL = rcUrl
 
     def loadTsConfig(self):
-        with open("RcConfig.json", "r") as f:
-            tmpConf = f.read()
-            conf = json.loads(tmpConf)
-            self.RcURL = conf["ResourseCatalogInfo"]["url"]
-            if not str(self.RcURL).endswith('/'):
-                self.RcURL = str(self.RcURL) + "/"
         try:
             tmpTs = requests.get(self.RcURL + "thingspeak")
             thingSpeakData = json.loads(tmpTs.text)
@@ -52,7 +45,7 @@ class ThingSpeak(object):
             DateInsert = msg["DateInsert"]
 
             # Load ThingSpeak Data and channel id
-            self.loadTsConfig()
+
             self.loadTsChannelID(patientId)
 
             self.topic = "channels/" + self.ThingSpeak_channelID + "/publish/" + self.ThingSpeak_Api_key
@@ -70,7 +63,16 @@ class ThingSpeak(object):
 
 
 if '__main__' == __name__:
-    TsClass = ThingSpeak()
+
+    with open("RcConfig.json", "r") as f:
+        tmpConf = f.read()
+        conf = json.loads(tmpConf)
+        RcURL = conf["ResourseCatalogInfo"]["url"]
+        if not str(RcURL).endswith('/'):
+            RcURL = str(RcURL) + "/"
+
+    TsClass = ThingSpeak(RcURL)
+    TsClass.loadTsConfig()
     while True:
         try:
             get_time = datetime.datetime.now()

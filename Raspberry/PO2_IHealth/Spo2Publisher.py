@@ -30,7 +30,7 @@ class PublishSpo2Data(object):
 
     def publish_Spo2_data(self):
         try:
-            data = self.spo2Class.get_blood_oxygen(30)
+            data = self.spo2Class.get_blood_oxygen(10)
             BO = data["BO"]
             HR = data["HR"]
             measurement_time = data["measurement_time"]

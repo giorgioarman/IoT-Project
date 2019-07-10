@@ -68,7 +68,8 @@ class DataAnalysis(object):
                         print warniningCount
 
                 if warniningCount > 1:
-                    msg = "%s sta male , andate subito a controllare" % str(patient)
+                    msg = str(patient) + " is critical with Heart rate: " + HRwithECG +\
+                          " bpm and SpO2: " + BOwithIhealth
                     result = self.sendMsg("hospital", msg)
                     print msg
 
