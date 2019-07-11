@@ -57,6 +57,7 @@ class ThingSpeak(object):
 
             publish.single(self.topic, payload, hostname=self.ThingSpeak_url,
                            transport=self.ThingSpeak_Connection_Type, port=self.ThingSpeak_Port)
+            time.sleep(2)
         except:
             print "error"
         return True
@@ -99,4 +100,4 @@ if '__main__' == __name__:
         except KeyError:
             print"Error in loading data or main part of application "
 
-        time.sleep(10)
+        time.sleep(0.2)

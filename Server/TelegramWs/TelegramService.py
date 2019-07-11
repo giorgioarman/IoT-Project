@@ -57,10 +57,17 @@ class TelegramService(object):
                     listOfKeyboard.append(KeyboardButton(text=i))
 
                 multiKeyboard = [listOfKeyboard[x:x + 2] for x in range(0, len(listOfKeyboard), 2)]
-                replyKeyboard = ReplyKeyboardMarkup(keyboard= multiKeyboard,resize_keyboard=True)
-                self.teleClass.sendMsg(chatId="-1001073430063",
-                                       Msg="hey " + userName + "\nI received your message  \n" + textMSG,
-                                       reply_markup=replyKeyboard)
+                replyKeyboard = ReplyKeyboardMarkup(keyboard= multiKeyboard, resize_keyboard=True)
+                if userName:
+                    self.teleClass.sendMsg(chatId="-1001073430063",
+                                           Msg="Hey " + userName + "\nThe patient " + textMSG +
+                                               " is not found. \n Please try again.",
+                                           reply_markup=replyKeyboard)
+                else:
+                    self.teleClass.sendMsg(chatId="-1001073430063",
+                                           Msg="The patient " + textMSG +
+                                           " is not found. \n Please try again.",
+                                           reply_markup=replyKeyboard)
                 self.teleClass.lastUpdateid = recivedMsg[x + 1]['update_id']
 
 

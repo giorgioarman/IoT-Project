@@ -155,15 +155,15 @@ if '__main__' == __name__:
                                 time.sleep(1)
                         except Exception:
                             msgBody = "SubscribeData: ERROR IN CONNECTING TO THE BROKER"
-                            teleWs.sendMsg("hospital", msgBody)
+                            teleWs.sendMsg("developer", msgBody)
                             print msgBody
                         time.sleep(5)
                 except Exception:
                     msgBody = "SubscribeData: There is an error with connecting to Resource Catalog to get topics"
-                    teleWs.sendMsg("hospital", msgBody)
+                    teleWs.sendMsg("developer", msgBody)
                     print msgBody
                 time.sleep(5)
         except Exception:
             msgBody = "SubscribeData: There is an error with connecting to Resource Catalog to get broker Data"
-            teleWs.sendMsg("hospital", msgBody)
+            teleWs.sendMsg("developer", msgBody)
             print msgBody
