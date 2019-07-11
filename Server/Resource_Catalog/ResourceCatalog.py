@@ -1,12 +1,12 @@
 import cherrypy
 import json
 
-
-class ResourceCatalog(object):
+# Definizione della classe 'ResourceCatalog'
+class ResourceCatalog(object): 
     exposed = True
-
+    # Definzione funzione GET
     def GET(self, *uri, **param):
-        with open("RcData.json", "r") as t:
+        with open("RcData.json", "r") as t: 
             tmpData = t.read()
             RcDataJson = json.loads(tmpData)
 
