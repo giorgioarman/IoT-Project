@@ -17,7 +17,7 @@ class DataAnalysis(object):
         current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
         print current_time
         try:
-            with open("localData.json", "r") as L:
+            with open("localData2.json", "r") as L:
                 tmpLocalData = L.read()
                 self.localData = json.loads(tmpLocalData)
             if len(self.msgSent) == 0:
@@ -50,7 +50,9 @@ class DataAnalysis(object):
                     if int(item["ReadDataCount"]) == self.rowNumberOfDataToCheck:
                         print "there is no new data"
                         break
-                    if int(item["ReadDataCount"]) == 0:
+                    if int(item["ReadDataCount"]) == 0 \
+                            and int(lastData[1]["ReadDataCount"]) == 0\
+                            and int(lastData[2]["ReadDataCount"]) == 0:
                         item["ReadDataCount"] = 3
                         lastData[1]["ReadDataCount"] = 2
                         lastData[2]["ReadDataCount"] = 1
