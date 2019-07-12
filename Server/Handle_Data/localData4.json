@@ -1,0 +1,76 @@
+{
+  "paitent1": [
+    {
+      "DateInsert": "2019-05-24 19:09:32",
+      "HRwithECG": 70,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:09:22",
+      "iHealthMeasureTime": "2019-05-24 19:09:30",
+      "BOwithIhealth": 96,
+      "HRwithIhealth": 68
+    },
+    {
+      "DateInsert": "2019-05-24 19:09:49",
+      "HRwithECG": 72,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:09:44",
+      "iHealthMeasureTime": "2019-05-24 19:09:45",
+      "BOwithIhealth": 92,
+      "HRwithIhealth": 69
+    },
+    {
+      "DateInsert": "2019-05-24 19:10:00",
+      "HRwithECG": 73,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:09:57",
+      "iHealthMeasureTime": "2019-05-24 19:10:00",
+      "BOwithIhealth": 95,
+      "HRwithIhealth": 75
+    },
+    {
+      "DateInsert": "2019-05-24 19:10:12",
+      "HRwithECG": 73,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:10:07",
+      "iHealthMeasureTime": "2019-05-24 19:10:12",
+      "BOwithIhealth": 90,
+      "HRwithIhealth": 69
+    },
+    {
+      "DateInsert": "2019-05-24 19:10:23",
+      "HRwithECG": 75,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:10:17",
+      "iHealthMeasureTime": "2019-05-24 19:10:23",
+      "BOwithIhealth": 81,
+      "HRwithIhealth": 62
+    },
+    {
+      "DateInsert": "2019-05-24 19:10:34",
+      "HRwithECG": 74,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:10:27",
+      "iHealthMeasureTime": "2019-05-24 19:10:34",
+      "BOwithIhealth": 85,
+      "HRwithIhealth": 60
+    },
+    {
+      "DateInsert": "2019-05-24 19:10:45",
+      "HRwithECG": 70,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:10:37",
+      "iHealthMeasureTime": "2019-05-24 19:10:45",
+      "BOwithIhealth": 98,
+      "HRwithIhealth": 42
+    },
+    {
+      "DateInsert": "2019-05-24 19:10:56",
+      "HRwithECG": 68,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-24 19:10:47",
+      "iHealthMeasureTime": "2019-05-24 19:10:56",
+      "BOwithIhealth": 97,
+      "HRwithIhealth": 35
+    }
+  ]
+}

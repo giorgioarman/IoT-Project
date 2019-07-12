@@ -1,0 +1,139 @@
+{
+  "paitent1": [
+    {
+      "DateInsert": "2019-05-21 19:09:32",
+      "HRwithECG": 70,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:09:22",
+      "iHealthMeasureTime": "2019-05-21 19:09:30",
+      "BOwithIhealth": 96,
+      "HRwithIhealth": 68
+    },
+    {
+      "DateInsert": "2019-05-21 19:09:49",
+      "HRwithECG": 92,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:09:44",
+      "iHealthMeasureTime": "2019-05-21 19:09:45",
+      "BOwithIhealth": 72,
+      "HRwithIhealth": 89
+    },
+    {
+      "DateInsert": "2019-05-21 19:10:00",
+      "HRwithECG": 93,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:09:57",
+      "iHealthMeasureTime": "2019-05-21 19:10:00",
+      "BOwithIhealth": 75,
+      "HRwithIhealth": 85
+    },
+    {
+      "DateInsert": "2019-05-21 19:10:12",
+      "HRwithECG": 93,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:10:07",
+      "iHealthMeasureTime": "2019-05-21 19:10:12",
+      "BOwithIhealth": 70,
+      "HRwithIhealth": 89
+    },
+    {
+      "DateInsert": "2019-05-21 19:10:23",
+      "HRwithECG": 75,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:10:17",
+      "iHealthMeasureTime": "2019-05-21 19:10:23",
+      "BOwithIhealth": 81,
+      "HRwithIhealth": 72
+    },
+    {
+      "DateInsert": "2019-05-21 19:10:34",
+      "HRwithECG": 74,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:10:27",
+      "iHealthMeasureTime": "2019-05-21 19:10:34",
+      "BOwithIhealth": 85,
+      "HRwithIhealth": 74
+    },
+    {
+      "DateInsert": "2019-05-21 19:10:45",
+      "HRwithECG": 70,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:10:37",
+      "iHealthMeasureTime": "2019-05-21 19:10:45",
+      "BOwithIhealth": 98,
+      "HRwithIhealth": 72
+    },
+    {
+      "DateInsert": "2019-05-21 19:10:56",
+      "HRwithECG": 68,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:10:47",
+      "iHealthMeasureTime": "2019-05-21 19:10:56",
+      "BOwithIhealth": 97,
+      "HRwithIhealth": 65
+    },
+    {
+      "DateInsert": "2019-05-21 19:11:08",
+      "HRwithECG": 68,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:10:57",
+      "iHealthMeasureTime": "2019-05-21 19:11:08",
+      "BOwithIhealth": 98,
+      "HRwithIhealth": 68
+    },
+    {
+      "DateInsert": "2019-05-21 19:11:19",
+      "HRwithECG": 78,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:11:18",
+      "iHealthMeasureTime": "2019-05-21 19:11:19",
+      "BOwithIhealth": 99,
+      "HRwithIhealth": 78
+    },
+    {
+      "DateInsert": "2019-05-21 19:11:30",
+      "HRwithECG": 70,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-21 19:11:28",
+      "iHealthMeasureTime": "2019-05-21 19:11:30",
+      "BOwithIhealth": 96,
+      "HRwithIhealth": 68
+    },
+    {
+      "DateInsert": "2019-05-22 19:09:32",
+      "HRwithECG": 44,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-22 19:09:22",
+      "iHealthMeasureTime": "2019-05-22 19:09:30",
+      "BOwithIhealth": 56,
+      "HRwithIhealth": 40
+    },
+    {
+      "DateInsert": "2019-05-22 19:09:49",
+      "HRwithECG": 40,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-22 19:09:44",
+      "iHealthMeasureTime": "2019-05-22 19:09:45",
+      "BOwithIhealth": 50,
+      "HRwithIhealth": 45
+    },
+    {
+      "DateInsert": "2019-05-22 19:10:00",
+      "HRwithECG": 30,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-22 19:09:57",
+      "iHealthMeasureTime": "2019-05-22 19:10:00",
+      "BOwithIhealth": 56,
+      "HRwithIhealth": 35
+    },
+    {
+      "DateInsert": "2019-05-22 19:10:12",
+      "HRwithECG": 52,
+      "ThingSpeak": 1,
+      "EchMeasureTime": "2019-05-22 19:10:07",
+      "iHealthMeasureTime": "2019-05-22 19:10:12",
+      "BOwithIhealth": 77,
+      "HRwithIhealth": 55
+    }
+      ]
+}
