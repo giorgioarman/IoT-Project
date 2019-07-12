@@ -7,9 +7,6 @@
 		"ip": "172.20.10.5",
 		"port":"8092"
 	},
-	"telegram": {
-		"sendMessageUrl": "http://172.20.10.6:8091/sendmessage"
-	},
     "topic": {
 		"wildcards": "Sector1/Room1/#"
 	},

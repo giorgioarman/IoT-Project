@@ -42,9 +42,6 @@ class PublishEcgData(object):
                                         "measurement_time": current_time})
             msg_info = client.publish(self.topic, new_data_json, qos=1)
             client.user_data_set(self.topic + " : " + new_data_json)
-            if msg_info.is_published() == True:
-                print ("PublishECG: Message is published.\n")
-            msg_info.wait_for_publish()
             self.mustPublish = False
             self.lastPublishTime = time.time()
             return "maybe is ok"
@@ -112,98 +109,28 @@ if __name__ == '__main__':
             client.loop_start()
 
             # create an object to Connect Arduino by USB
-            serialPort = serial.Serial('COM5', 9600, timeout=.1)
+            serialPort = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
             mustSendMsg = 0
             while True:
-                if (serialPort.in_waiting > 0):
-                    readLine = serialPort.readline()
-                    if readLine:
-                        dataSplitted = readLine.strip().split(" ")
-                        HRData = dataSplitted[len(dataSplitted) - 1]
-                        # control HeartBeat each time that collect from SENSOR
+                readLine = serialPort.readline()
+                if readLine:
+                    dataSplitted = readLine.strip().split(" ")
+                    HRData = dataSplitted[len(dataSplitted) - 1]
+                    # control HeartBeat each time that collect from SENSOR
 
-                        if int(HRData) < 45 or int(HRData) > 90:
-                            mustSendMsg += 1
-                            if mustSendMsg > 1 and not pubClass.msgSent:
-                                msg = paitentID + " is critical with Heart Rate: %s bpm" % HRData
-                                result = pubClass.sendMsg("hospital", msg)
-                                pubClass.msgSent = True
-                                pubClass.lastMsgSent = time.time()
-                                mustSendMsg = 0
-                            else:
-                                mustSendMsg = 0
-                        else:
+                    if int(HRData) < 45 or int(HRData) > 90:
+                        mustSendMsg += 1
+                        if mustSendMsg > 1 and not pubClass.msgSent:
+                            msg = paitentID + " is critical with Heart Rate: %s bpm" % HRData
+                            print msg
+                            result = pubClass.sendMsg("hospital", msg)
+                            pubClass.msgSent = True
+                            pubClass.lastMsgSent = time.time()
                             mustSendMsg = 0
+                    else:
+                        mustSendMsg = 0
 
-                        print(HRData)
-                        pubClass.trigger()
-                        if pubClass.mustPublish:
-                            pubClass.publish_ECG_data(HRData)
-                        time.sleep(0.5)
-
-    #
-    # while True:
-    #     try:
-    #         with open("RcConfig.json", "r") as f:
-    #             tmpConf = f.read()
-    #             conf = json.loads(tmpConf)
-    #             RcURL = conf["ResourseCatalogInfo"]["url"]
-    #             if not str(RcURL).endswith('/'):
-    #                 RcURL = str(RcURL) + "/"
-    #             paitentID = conf["ResourseCatalogInfo"]["PaitentID"]
-    #             telegramUrl = conf["telegram"]["sendMessageUrl"]
-    #         while True:
-    #             try:
-    #                 client = mqtt.Client('ECG')
-    #                 pubClass = PublishEcgData(client, RcURL, paitentID, telegramUrl)
-    #                 tmpBroker = requests.get(RcURL + "broker")
-    #                 brokerData = json.loads(tmpBroker.text)
-    #                 if brokerData:
-    #                     pubClass.get_topic()
-    #                     try:
-    #                         broker_ip = brokerData["Broker_IP"]
-    #                         broker_port = brokerData["Broker_port"]
-    #                         client.on_connect = PublishEcgData.on_connect
-    #                         client.on_publish = PublishEcgData.on_publish
-    #                         ok = client.connect(broker_ip, int(broker_port))
-    #                         client.loop_start()
-    #
-    #                         #create an object to Connect Arduino by USB
-    #                         serialPort = serial.Serial('COM5', 9600, timeout=.1)
-    #                         mustSendMsg = 0
-    #
-    #                         while True:
-    #                             if (serialPort.in_waiting > 0):
-    #                                 readLine = serialPort.readline()
-    #                                 if readLine:
-    #                                     dataSplitted = readLine.strip().split(" ")
-    #                                     HRData = dataSplitted[len(dataSplitted) - 1]
-    #                                     # control HeartBeat each time that collect from SENSOR
-    #
-    #                                     if HRData < 45 or HRData > 90:
-    #                                         mustSendMsg += 1
-    #                                         if mustSendMsg > 1:
-    #                                             msg = "%s is critical with Heart Rate: %s bpm" %paitentID, HRData
-    #                                             result = pubClass.sendMsg("hospital", msg)
-    #                                             pubClass.msgSent = True
-    #                                             pubClass.lastMsgSent = time.time()
-    #                                             mustSendMsg = 0
-    #
-    #                                     print(HRData)
-    #                                     pubClass.trigger()
-    #                                     if pubClass.mustPublish:
-    #                                         pubClass.publish_ECG_data(HRData)
-    #
-    #                     except Exception:
-    #                         msgBody = "PublishECG: ERROR IN CONNECTING TO THE BROKER"
-    #                         print msgBody
-    #                         pubClass.sendMsg("developer", msgBody)
-    #             except Exception:
-    #                 msgBody = "PublishECG: There is an error with connecting to Resource Catalog"
-    #                 print msgBody
-    #                 pubClass.sendMsg("developer", msgBody)
-    #             time.sleep(10)
-    #     except Exception:
-    #         msgBody = "PublishECG: ERROR IN OPENING RcConfig.Json File"
-    #         print msgBody
-    #     time.sleep(5)
+                    print(HRData)
+                    pubClass.trigger()
+                    if pubClass.mustPublish:
+                        pubClass.publish_ECG_data(HRData)
