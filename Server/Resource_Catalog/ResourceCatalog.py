@@ -1,20 +1,20 @@
 import cherrypy
 import json
 
-# Definizione della classe 'ResourceCatalog'
+# Creation of the class 'ResourceCatalog'
 class ResourceCatalog(object): 
     exposed = True
     # Definzione funzione GET
     def GET(self, *uri, **param):
         with open("RcData.json", "r") as t: 
             tmpData = t.read()
-            RcDataJson = json.loads(tmpData)
+            RcDataJson = json.loads(tmpData) #Reading and storage of datas from file 'RcData.json'
 
         if len(uri) == 0:
             return "you have not entered the command"
         else:
-            RequestCommand = str(uri[0]).lower()
-            if RequestCommand in RcDataJson:
+            RequestCommand = str(uri[0]).lower() #Managing of the request from other devices 
+            if RequestCommand in RcDataJson: 
                 res = RcDataJson[RequestCommand]
                 reqData = json.dumps(res)
                 return reqData
