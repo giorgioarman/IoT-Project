@@ -4,7 +4,7 @@ import json
 import requests
 from flask import request
 
-
+#Creation of the class
 class RestAPIClass(object):
     exposed = True
 
@@ -13,7 +13,7 @@ class RestAPIClass(object):
         if len(uri) == 0:
             return "you have not entered the command"
         else:
-            RequestCommand = str(uri[0]).lower()
+            RequestCommand = str(uri[0]).lower() #Managing of the two command
             if RequestCommand == 'getalldata':
                 try:
                     patientId = uri[1]
