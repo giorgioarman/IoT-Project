@@ -12,10 +12,10 @@ class PublishEcgData(object):
         self.rcURL = rcURL
         self.paitentID = paitentID
         self.telegramUrl = telegramUrl
-        self.mustPublish = False
-        self.lastPublishTime = ''
-        self.msgSent = False
-        self.lastMsgSent = ''
+        self.mustPublish = False # initialization to false for the publishing of the data. After 10s of the last pubblication, it becomes TRUE
+        self.lastPublishTime = '' # empty inizialization of the last publishing time. When a publication is performed, it containts the time of the last publication
+        self.msgSent = False # initialization to false of the sent message. In the code it will become TRUE when the message is sent
+        self.lastMsgSent = '' # empty inizialization of the time of the last sent message. So it provides the time when a message is sent
 
     @staticmethod
     def on_connect(client, userdata, flags, rc):
@@ -39,7 +39,7 @@ class PublishEcgData(object):
                 HR = HRdata
             new_data_json = json.dumps({"subject": "ECG", "patientID": self.paitentID,
                                         "HR": HR,
-                                        "measurement_time": current_time})
+                                        "measurement_time": current_time}) #Publication of ECG-PatientID, HR value and time
             msg_info = client.publish(self.topic, new_data_json, qos=1)
             client.user_data_set(self.topic + " : " + new_data_json)
             self.mustPublish = False
@@ -74,14 +74,14 @@ class PublishEcgData(object):
         if not self.lastPublishTime:
             self.mustPublish = True
         else:
-            if abs(self.lastPublishTime - time.time()) > 10:
-                self.mustPublish = True
+            if abs(self.lastPublishTime - time.time()) > 10: #in order to avoid too many publications, a pubblication can be performed only if more than 10 s are passed
+                self.mustPublish = True # the publication must be performed
             else:
-                self.mustPublish = False
+                self.mustPublish = False # the publication must not be performed
 
         if self.msgSent:
-            if abs(self.lastMsgSent - time.time()) > 60:
-                self.msgSent = False
+            if abs(self.lastMsgSent - time.time()) > 60: # in order to avoid too many messages sent, more than 60 s must pass before sending a new message
+                self.msgSent = False # after 60 s after a message is sent (msgSent is TRUE in this interval), we have to inizializa again mgsSent to FALSE
 
 
 if __name__ == '__main__':
@@ -109,28 +109,30 @@ if __name__ == '__main__':
             client.loop_start()
 
             # create an object to Connect Arduino by USB
-            serialPort = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
-            mustSendMsg = 0
+            serialPort = serial.Serial('/dev/ttyACM0', 9600, timeout=.1) # acquisition from Arduino through USB port
+            mustSendMsg = 0 # counter inizialization
             while True:
+                pubClass.trigger()
                 readLine = serialPort.readline()
                 if readLine:
                     dataSplitted = readLine.strip().split(" ")
                     HRData = dataSplitted[len(dataSplitted) - 1]
-                    # control HeartBeat each time that collect from SENSOR
+                    
+                    # Heart beat values control
 
-                    if int(HRData) < 45 or int(HRData) > 90:
-                        mustSendMsg += 1
-                        if mustSendMsg > 1 and not pubClass.msgSent:
+                    if int(HRData) < 45 or int(HRData) > 90: #  HR values threshold for bed ridden patients
+                        mustSendMsg += 1 # increase of the counter if the HR value is out of the threshold
+                        if mustSendMsg > 1 and not pubClass.msgSent: # if there are more than one consecutive values out of the range and a message has not been sent yet
                             msg = paitentID + " is critical with Heart Rate: %s bpm" % HRData
                             print msg
-                            result = pubClass.sendMsg("hospital", msg)
-                            pubClass.msgSent = True
-                            pubClass.lastMsgSent = time.time()
+                            result = pubClass.sendMsg("hospital", msg) #message sent in the hospital group
+                            pubClass.msgSent = True # a message has been sent
+                            pubClass.lastMsgSent = time.time() # time at which a message has been sent
                             mustSendMsg = 0
                     else:
                         mustSendMsg = 0
 
                     print(HRData)
-                    pubClass.trigger()
-                    if pubClass.mustPublish:
-                        pubClass.publish_ECG_data(HRData)
+                   
+                    if pubClass.mustPublish: 
+                        pubClass.publish_ECG_data(HRData) # publish the data after 10 s
