@@ -2,7 +2,7 @@
 
 
 
-# Thingspeak website:
+#Thingspeak website:
 http://thingspeak.com/channels/779308
 
 #Freeboard website:
