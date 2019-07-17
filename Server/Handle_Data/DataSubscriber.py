@@ -52,11 +52,11 @@ class SubscribeData(object):
             counter = self.EcgDataCounter + 1
             self.EcgDataCounter = counter
             print("SubscribeData: (Received Data from ECG) " + str(messageData) + " at time : " + str(current_time))
-
+        # the data is inserted in the local file only when the measurement was collected from both sensors
         if self.iHealthData and self.EcgData:
             self.bothSensorDataReceived = True
             self.insertData()
-
+        # if no data was collected in the last 30 seconds from any of the sensors then an alert is sent
         if self.EcgDataCounter > 3:
             msgBody = ("SubscribeData: *****----- In last 30 seconds, ARRIVES No data from ECG sensor ------***** " +
                        " at time : " + str(current_time))
@@ -81,6 +81,7 @@ class SubscribeData(object):
                 tmpLocalData = L.read()
                 localData = json.loads(tmpLocalData)
             localDataJson = localData[ecgMsg['patientID']]
+            # new data is added to the local file
             new_data = json.dumps({"HRwithIhealth": iHealthMsg['HR'],
                                    "BOwithIhealth": iHealthMsg['BO'],
                                    "iHealthMeasureTime": iHealthMsg['measurement_time'],
@@ -90,6 +91,7 @@ class SubscribeData(object):
                                    "ThingSpeak": 0,
                                    "ReadDataCount": 0})
             new_data_json = json.loads(new_data)
+            # only the 15 most recent measurements are retained
             if len(localDataJson) < 16:
                 localDataJson.append(new_data_json)
             else:
@@ -106,7 +108,7 @@ class SubscribeData(object):
             print("SubscribeData: (successfully inserted to Local File) "
                   + str(new_data_json) + " at time : " + str(current_time))
         except KeyError:
-            print("SubscribeData: (Error in inserted to Local File)" + str(current_time))
+            print("SubscribeData: (Error in updating the Local File)" + str(current_time))
 
 
 class TelegramWS(object):
@@ -134,17 +136,20 @@ if '__main__' == __name__:
 
     while True:
         try:
+            # get info related to the broker
             tmpBroker = requests.get(RcURL + "broker")
             brokerData = json.loads(tmpBroker.text)
             broker_ip = brokerData["Broker_IP"]
             broker_port = brokerData["Broker_port"]
             while True:
                 try:
+                    # specify the topics the subscriber is interested in
                     tmpTopics = requests.get(RcURL + "topic")
                     topics = json.loads(tmpTopics.text)
                     topic = topics["wildcards"]
                     while True:
                         try:
+                            # establish a connection and subscribe for the topic
                             client.on_connect = SubClass.on_connect
                             client.on_subscribe = SubClass.on_subscribe
                             client.on_message = SubClass.on_message
@@ -159,11 +164,11 @@ if '__main__' == __name__:
                             print msgBody
                         time.sleep(5)
                 except Exception:
-                    msgBody = "SubscribeData: There is an error with connecting to Resource Catalog to get topics"
+                    msgBody = "SubscribeData: There was an error in connecting to the Resource Catalog to get topics"
                     teleWs.sendMsg("developer", msgBody)
                     print msgBody
                 time.sleep(5)
         except Exception:
-            msgBody = "SubscribeData: There is an error with connecting to Resource Catalog to get broker Data"
+            msgBody = "SubscribeData: There was an error in connecting to the Resource Catalog to get Broker Data"
             teleWs.sendMsg("developer", msgBody)
             print msgBody

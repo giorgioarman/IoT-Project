@@ -22,7 +22,7 @@ class ThingSpeak(object):
             tmpTs = requests.get(self.RcURL + "thingspeak")
             thingSpeakData = json.loads(tmpTs.text)
         except ValueError:
-            print "ThnigSpeak: There is am error with connecting to Resource Catalog" + str(ValueError)
+            print "ThingSpeak: There was an error in connecting to the Resource Catalog" + str(ValueError)
 
         self.ThingSpeak_url = thingSpeakData["ThingSpeak_url"]
         self.ThingSpeak_Port = thingSpeakData["ThingSpeak_Port"]
@@ -35,7 +35,7 @@ class ThingSpeak(object):
             paitentData = json.loads(tmpChn.text)
             self.ThingSpeak_channelID = paitentData["ThingSpeak"]['ThingSpeak_channelID']
         except:
-            print "ThnigSpeak: There is am error with connecting to Resource Catalog"
+            print "ThingSpeak: There was an error in connecting to the Resource Catalog"
 
     def sendSpo2Data(self, msg, patientId):
         try:
@@ -54,7 +54,7 @@ class ThingSpeak(object):
                       "&field2=" + str(HRwithIhealth) +\
                       "&field3=" + str(HRwithECG) +\
                       "&field4=" + str(DateInsert)
-
+            # publish
             publish.single(self.topic, payload, hostname=self.ThingSpeak_url,
                            transport=self.ThingSpeak_Connection_Type, port=self.ThingSpeak_Port)
             time.sleep(2)
@@ -87,13 +87,14 @@ if '__main__' == __name__:
             for Patient in localData.keys():
                 localDataJson = localData[Patient]
                 for data in localDataJson:
-                    # Check data if is sent to Thing speak or Not
+                    # Check if data was sent to Thing speak or Not
                     if int(data["ThingSpeak"]) == 0:
+                        # publish to thingspeak
                         isSentToThingSpeak = TsClass.sendSpo2Data(data, Patient)
                         if isSentToThingSpeak:
                             data["ThingSpeak"] = 1
                             print ("SubscribeData: (successfully) sent to ThingSpeak at time : " + str(current_time))
-
+            # update the local data (the flag "ThingSpeak" was modified when the data was successfully published)
             with open('localData.json', 'w') as outfile:
                 json.dump(localData, outfile)
 
