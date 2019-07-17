@@ -1,1 +1,14 @@
-{"USER_DATA_URL": "https://openapi.ihealthlabs.eu/openapiv2/user/", "USER_ID": "cc9c245080e949d08fdf9c9d1e354180", "ACCESS_TOKEN": "i6LpPCttq6Uy3Yq51dNj7b4lhp5PzwlL3q7Ql*whEKK3hmBahtJOItdrDUfZ6d2oUW6hg7oCA6moUJ*B9onwDVNHs422OjzvckZxL*83dyoGXy0AQQ0vPQHHHPhS39RsFG4*8YAMT3QQeLPCAEglw-t-ac1b8MERGD2RQJuEEPViu90r4nedMeow2pdMjP97eX34wsrjExRdnbePUNvK-A", "DATA_TYPES_SV": "af3ecad8bc5e4104a3a77f2a002e607a", "AUTH_URL": "https://oauthuser.ihealthlabs.eu/OpenApiV2/OAuthv2/userauthorization/", "CALLBACK_URI": "http://localhost:5000/callback", "CLIENT_ID": "4c8e0353e6204e14b71236eb886bad7c", "AUTH_URL_step2": "https://openapi.ihealthlabs.eu/OpenApiV2/OAuthv2/userauthorization/", "CLIENT_SECRET": "ff98f659e701451f8c1a10d60dad2e2d", "DATA_TYPES_SC": "28e6c527a3c44867bef8ad356dab9b8e ", "CALLBACK_URI_org": "http://IOTforhealth.it/redirect", "REFRESH_TOKEN": "i6LpPCttq6Uy3Yq51dNj7b4lhp5PzwlL3q7Ql*whEKK3hmBahtJOItdrDUfZ6d2oUW6hg7oCA6moUJ*B9onwDTcMKA2uJBnUDpg0M355VWNAUCNRZoE8qYlgKm4L78Q0rcz53hAFc6PYOFOQehmq21bHWwLaZF*jsx9LOUXQE2JPHIIFAfa9akRUrIYP9HEMXaU0RAEEJGI8PHYgmhkveA"}
+{
+  "USER_DATA_URL": "https://openapi.ihealthlabs.eu/openapiv2/user/",
+  "USER_ID": "cc9c245080e949d08fdf9c9d1e354180",
+  "ACCESS_TOKEN": "i6LpPCttq6Uy3Yq51dNj7b4lhp5PzwlL3q7Ql*whEKK3hmBahtJOItdrDUfZ6d2oUW6hg7oCA6moUJ*B9onwDVNHs422OjzvckZxL*83dyoGXy0AQQ0vPQHHHPhS39RsFG4*8YAMT3QQeLPCAEglw-t-ac1b8MERGD2RQJuEEPViu90r4nedMeow2pdMjP97eX34wsrjExRdnbePUNvK-A",
+  "DATA_TYPES_SV": "af3ecad8bc5e4104a3a77f2a002e607a",
+  "AUTH_URL": "https://oauthuser.ihealthlabs.eu/OpenApiV2/OAuthv2/userauthorization/",
+  "CALLBACK_URI": "http://localhost:5000/callback",
+  "CLIENT_ID": "4c8e0353e6204e14b71236eb886bad7c",
+  "AUTH_URL_step2": "https://openapi.ihealthlabs.eu/OpenApiV2/OAuthv2/userauthorization/",
+  "CLIENT_SECRET": "ff98f659e701451f8c1a10d60dad2e2d",
+  "DATA_TYPES_SC": "28e6c527a3c44867bef8ad356dab9b8e ",
+  "CALLBACK_URI_org": "http://IOTforhealth.it/redirect",
+  "REFRESH_TOKEN": "i6LpPCttq6Uy3Yq51dNj7b4lhp5PzwlL3q7Ql*whEKK3hmBahtJOItdrDUfZ6d2oUW6hg7oCA6moUJ*B9onwDTcMKA2uJBnUDpg0M355VWNAUCNRZoE8qYlgKm4L78Q0rcz53hAFc6PYOFOQehmq21bHWwLaZF*jsx9LOUXQE2JPHIIFAfa9akRUrIYP9HEMXaU0RAEEJGI8PHYgmhkveA"
+}
